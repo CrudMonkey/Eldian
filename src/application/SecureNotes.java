@@ -3,11 +3,12 @@ package application;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
@@ -17,15 +18,29 @@ public class SecureNotes {
 	@FXML
 	private HTMLEditor editor;
 	
-	File currentFile;
+	private File currentFile;
 	
+	private String password;
+	int uid = 0;
 	
+
+	public void setPassword(String password) {
+		this.password = password;
+		 uid = 109;
+	}
 
 	@FXML
 	private void onSaveAs(MouseEvent event) {
 		String text = editor.getHtmlText();
+		if(uid != 109){
+		password = getPasswordfromUser();
+		}
+		AES a = new AES(password);
+		a.encrypt(text);
+		String encryptedText = a.getEncryptedString();
 		//System.out.println(text);
-		openSaveLocation(text);
+		System.out.println("as" + encryptedText);
+		openSaveLocation(encryptedText);
 
 	}
 	
@@ -68,17 +83,44 @@ public class SecureNotes {
         currentFile = fileChooser.showOpenDialog(null);
         List<String> text = Files.readAllLines(currentFile.toPath());
         String fileText = text.get(0);
-        editor.setHtmlText(fileText);
+        if(uid != 109){
+        password = getPasswordfromUser();
+        }
+        AES a = new AES(password);
+		a.decrypt(fileText);
+		String decryptedText = a.getDecryptedString();
+        editor.setHtmlText(decryptedText);
 	}
 	
+	private String getPasswordfromUser() {
+		// TODO Auto-generated method stub
+		TextInputDialog dialog = new TextInputDialog("walter");
+		dialog.setTitle("Text Input Dialog");
+		dialog.setHeaderText("Look, a Text Input Dialog");
+		dialog.setContentText("Please enter your name:");
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		   return result.get();
+		}
+		return null;
+	}
+
 	@FXML
 	private void onSave(MouseEvent event) {
 		String text = editor.getHtmlText();
+		if(password == null){
+			password = getPasswordfromUser();
+		}
+		AES a = new AES(password);
+		a.encrypt(text);
+		String encryptedText = a.getEncryptedString();
+		System.out.println("s"+encryptedText);
 		if(currentFile == null){
-			currentFile = openSaveLocation(text); 
+			currentFile = openSaveLocation(encryptedText); 
 		}
 		else{
-			SaveFile(text,currentFile);
+			
+			SaveFile(encryptedText,currentFile);
 		}
 	}
 
