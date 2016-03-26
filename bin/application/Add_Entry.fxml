@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="486.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddEntry">
+   <children>
+      <TextField fx:id="accountNameField" layoutX="88.0" layoutY="79.0" promptText="Enter Account Name here" />
+      <Button fx:id="AddEntryBTN" layoutX="88.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#onAddEntryBTN" text="Add Entry" />
+      <Button fx:id="CancelBTN" layoutX="211.0" layoutY="346.0" mnemonicParsing="false" text="Cancel" />
+      <PasswordField fx:id="passwordField" layoutX="88.0" layoutY="192.0" promptText="Enter Password here" />
+      <PasswordField fx:id="reconfirmPWField" layoutX="88.0" layoutY="245.0" promptText="Reconfirm password" />
+      <TextField fx:id="categoryField" layoutX="88.0" layoutY="296.0" promptText="Enter Category here" />
+      <TextField fx:id="loginIDField" layoutX="88.0" layoutY="136.0" promptText="Enter Login ID here" />
+   </children>
+</AnchorPane>
