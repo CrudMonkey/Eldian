@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secure_Notes.fxml")); 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Analysis.fxml")); 
         Parent root = (Parent)fxmlLoader.load(); 
-        SecureNotes controller = fxmlLoader.<SecureNotes>getController();
+        PasswordAnalysis controller = fxmlLoader.<PasswordAnalysis>getController();
         //controller.setUser(user_id);
         primaryStage.setTitle("Hello World");
         Scene scene = new Scene(root, 700, 575);
