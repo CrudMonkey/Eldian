@@ -16,6 +16,7 @@ public class Account {
 	public Account(String userID) {
 		// TODO Auto-generated constructor stub
 		this.userID = userID;
+		System.out.println("account cosnt" + userID);
 		a = new AES(userID);
 
 	}
@@ -23,14 +24,16 @@ public class Account {
 	private void dbConnect() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub0000000000000000
 		Class.forName("org.sqlite.JDBC");
-		connection = DriverManager.getConnection("jdbc:sqlite:F:\\College\\SE\\Mini Project\\Eldian.sqlite");
+		System.out.println(System.getProperty("user.dir"));
+		connection = DriverManager.getConnection("jdbc:sqlite:"+System.getProperty("user.dir")+"\\src\\application\\Eldian.sqlite");
 	}
 
 	public ArrayList<UserEntry> getEntries() throws ClassNotFoundException, SQLException {
 		dbConnect();
 		ArrayList<UserEntry> entryList = new ArrayList<>();
-		String sql = "Select * from entries";
+		String sql = "Select * from entries where user_id= ?";
 		PreparedStatement pstmt = connection.prepareStatement(sql);
+		pstmt.setString(1, userID);
 		ResultSet rs = pstmt.executeQuery();
 		while (rs.next()) {
 			UserEntry userEntries = new UserEntry(userID);

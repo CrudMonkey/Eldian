@@ -8,31 +8,34 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class SecureNotes {
-
+	
+	
+	private String userID ="0";
+	
 	@FXML
 	private HTMLEditor editor;
 	
 	private File currentFile;
 	
 	private String password;
-	int uid = 0;
 	
 
-	public void setPassword(String password) {
-		this.password = password;
-		 uid = 109;
-	}
+	
 
 	@FXML
 	private void onSaveAs(MouseEvent event) {
 		String text = editor.getHtmlText();
-		if(uid != 109){
+		if(userID.equals("0")){
 		password = getPasswordfromUser();
 		}
 		AES a = new AES(password);
@@ -83,7 +86,7 @@ public class SecureNotes {
         currentFile = fileChooser.showOpenDialog(null);
         List<String> text = Files.readAllLines(currentFile.toPath());
         String fileText = text.get(0);
-        if(uid != 109){
+        if(userID.equals("0")){
         password = getPasswordfromUser();
         }
         AES a = new AES(password);
@@ -94,10 +97,10 @@ public class SecureNotes {
 	
 	private String getPasswordfromUser() {
 		// TODO Auto-generated method stub
-		TextInputDialog dialog = new TextInputDialog("walter");
-		dialog.setTitle("Text Input Dialog");
-		dialog.setHeaderText("Look, a Text Input Dialog");
-		dialog.setContentText("Please enter your name:");
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setTitle("Encyption");
+		dialog.setHeaderText("Enter your password for encryption");
+		dialog.setContentText("Password");
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
 		   return result.get();
@@ -124,4 +127,19 @@ public class SecureNotes {
 		}
 	}
 
+	public void setUser(String userid, String masterPassword) {
+		// TODO Auto-generated method stub
+		this.userID = userid;
+		this.password = masterPassword;
+	}
+
+	@FXML
+	private void onBackBtnClick(MouseEvent event) throws Exception {
+		Stage stage = (Stage) editor.getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		stage.setTitle("Hello World");
+		stage.setScene(new Scene(root, 700, 575));
+		stage.show();
+	}
 }

@@ -12,12 +12,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml")); 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml")); 
         Parent root = (Parent)fxmlLoader.load(); 
-        HomeScreen controller = fxmlLoader.<HomeScreen>getController();
-        //controller.setUser(user_id);
+        Login controller = fxmlLoader.<Login>getController();
         primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(root, 700, 575);
+        Scene scene = new Scene(root, 600, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

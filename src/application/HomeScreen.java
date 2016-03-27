@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -72,6 +73,7 @@ public class HomeScreen {
 
 	@FXML
 	private Button LogOutBT;
+	private String masterPassword;
 
 	@FXML
 	private void onAddEntry(MouseEvent event) throws Exception {
@@ -79,6 +81,8 @@ public class HomeScreen {
 		dialogBox.display("add");
 		constructEntryTable();
 		table.setItems(getEntries());
+
+		
 	}
 
 	@FXML
@@ -90,6 +94,7 @@ public class HomeScreen {
 		dialogBox.display("delete");
 		constructEntryTable();
 		table.setItems(getEntries());
+		
 	}
 
 	private ObservableList<UserEntry> getSelectedItems() {
@@ -115,8 +120,10 @@ public class HomeScreen {
 		Stage stage = (Stage) borderPane.getScene().getWindow();
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Analysis.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
+		PasswordAnalysis controller = fxmlLoader.<PasswordAnalysis>getController();
+        controller.setUser(UserID,masterPassword);
 		stage.setTitle("Hello World");
-		Scene scene = new Scene(root, 700, 575);
+		Scene scene = new Scene(root, 680, 750);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
@@ -126,14 +133,46 @@ public class HomeScreen {
 	private void onPWGenerationClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
 		Stage stage = (Stage) borderPane.getScene().getWindow();
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Generation.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Generator.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
+		PasswordGeneration controller = fxmlLoader.<PasswordGeneration>getController();
+        controller.setUser(UserID,masterPassword);
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 
+	}
+	
+	
+	@FXML
+	private void onSNotesClick(MouseEvent event) throws Exception {
+		// System.out.println("lol");
+		Stage stage = (Stage) borderPane.getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secure_Notes.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		SecureNotes controller = fxmlLoader.<SecureNotes>getController();
+		controller.setUser(UserID,masterPassword);
+		stage.setTitle("Hello World");
+		Scene scene = new Scene(root, 700, 575);
+		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+
+	}
+	
+	@FXML
+	private void onLogOutClick(MouseEvent event) throws Exception {
+		// System.out.println("lol");
+		Stage stage = (Stage) borderPane.getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		stage.setTitle("Hello World");
+		Scene scene = new Scene(root, 700, 575);
+		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
@@ -164,12 +203,23 @@ public class HomeScreen {
 
 	private ObservableList<UserEntry> getEntries() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
+		
+		try{
+		System.out.println(new Account(UserID).getEntries());
 		ObservableList<UserEntry> userEntries = FXCollections.observableArrayList(new Account(UserID).getEntries());
 		return userEntries;
+		}
+		catch(Exception e){
+			
+		}
+		return null;
 	}
 
-	public void setUser(String userid) {
+	public void setUser(String userid, String masterPassword) {
+		// TODO Auto-generated method stub
 		this.UserID = userid;
+		this.masterPassword = masterPassword;
+		System.out.println(UserID);
 		dialogBox = new Home_Dialog_Box(UserID);
 		try {
 			constructEntryTable();

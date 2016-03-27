@@ -5,20 +5,25 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="470.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditEntry">
+<AnchorPane prefHeight="470.0" prefWidth="452.0" style="-fx-background-color: #deeaf7;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EditEntry">
    <children>
+      <Pane layoutX="41.0" layoutY="31.0" prefHeight="391.0" prefWidth="369.0" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-border-color: #00c6ff;">
+         <children>
+            <Button fx:id="AddEntryBTN" layoutX="87.0" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#onEditEntryBTN" text="Edit Entry" />
+            <Button fx:id="CancelBTN" layoutX="191.0" layoutY="323.0" mnemonicParsing="false" text="Cancel" />
+         </children>
+      </Pane>
       <TextField fx:id="accountNameField" layoutX="211.0" layoutY="74.0" promptText="Enter Account Name here" />
-      <Button fx:id="AddEntryBTN" layoutX="91.0" layoutY="363.0" mnemonicParsing="false" onMouseClicked="#onEditEntryBTN" text="Edit Entry" />
-      <Button fx:id="CancelBTN" layoutX="223.0" layoutY="363.0" mnemonicParsing="false" text="Cancel" />
       <PasswordField fx:id="passwordField" layoutX="211.0" layoutY="187.0" promptText="Enter Password here" />
       <PasswordField fx:id="reconfirmPWField" layoutX="211.0" layoutY="240.0" promptText="Reconfirm password" />
       <TextField fx:id="categoryField" layoutX="211.0" layoutY="291.0" promptText="Enter Category here" />
       <TextField fx:id="loginIDField" layoutX="211.0" layoutY="131.0" promptText="Enter Login ID here" />
-      <Label layoutX="14.0" layoutY="79.0" text="Enter account name here : " />
-      <Label layoutX="14.0" layoutY="136.0" text="Enter login id here : " />
-      <Label layoutX="14.0" layoutY="192.0" text="Enter password here : " />
-      <Label layoutX="15.0" layoutY="245.0" text="Reconfirm password : " />
-      <Label layoutX="15.0" layoutY="296.0" text="Enter category : " />
+      <Label layoutX="14.0" layoutY="79.0" text="          Enter account name here : " />
+      <Label layoutX="14.0" layoutY="136.0" text="         Enter login id here : " />
+      <Label layoutX="14.0" layoutY="192.0" text="          Enter password here : " />
+      <Label layoutX="15.0" layoutY="245.0" text="          Reconfirm password : " />
+      <Label layoutX="15.0" layoutY="296.0" text="          Enter category : " />
    </children>
 </AnchorPane>

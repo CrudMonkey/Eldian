@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class PasswordGeneration {
 	
 	private String userID;
+	private String masterPassword;
 	private boolean hasDigits;
 	private boolean hasLowercase;
 	private boolean hasUppercase;
@@ -134,9 +135,10 @@ public class PasswordGeneration {
 		}
 	}
 
-	public void setUser(String user_id) {
+	public void setUser(String userid, String masterPassword) {
 		// TODO Auto-generated method stub
-		this.userID = user_id;
+		this.userID = userid;
+		this.masterPassword = masterPassword;
 	}
 	
 	@FXML
@@ -145,7 +147,7 @@ public class PasswordGeneration {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		HomeScreen controller = fxmlLoader.<HomeScreen> getController();
-		controller.setUser(userID);
+		controller.setUser(userID,masterPassword);
 		stage.setTitle("Hello World");
 		stage.setScene(new Scene(root, 700, 575));
 		stage.show();
