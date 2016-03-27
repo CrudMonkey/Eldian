@@ -139,6 +139,16 @@ public class PasswordGeneration {
 		this.userID = user_id;
 	}
 	
-	
+	@FXML
+	private void onBackBtnClick(MouseEvent event) throws Exception {
+		Stage stage = (Stage) PasswordLength.getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		HomeScreen controller = fxmlLoader.<HomeScreen> getController();
+		controller.setUser(userID);
+		stage.setTitle("Hello World");
+		stage.setScene(new Scene(root, 700, 575));
+		stage.show();
+	}
 
 }

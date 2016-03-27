@@ -18,14 +18,19 @@ import org.passay.RuleResultDetail;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class PasswordAnalysis implements Initializable{
 	
@@ -301,6 +306,17 @@ public class PasswordAnalysis implements Initializable{
 		this.userID = user_id;
 	}
 
+	@FXML
+	private void onBackBtnClick(MouseEvent event) throws Exception {
+		Stage stage = (Stage) PWQualityMetrics.getScene().getWindow();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		HomeScreen controller = fxmlLoader.<HomeScreen> getController();
+		controller.setUser(userID);
+		stage.setTitle("Hello World");
+		stage.setScene(new Scene(root, 700, 575));
+		stage.show();
+	}
 	
 
 }
