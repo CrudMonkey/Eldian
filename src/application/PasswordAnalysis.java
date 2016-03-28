@@ -3,6 +3,7 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import org.passay.CharacterRule;
@@ -46,23 +47,8 @@ public class PasswordAnalysis implements Initializable{
 	@FXML
 	private Button backBtn;
 
-	private String PWLengthText = "";
-	private String NumberofNumsText = "";
-	private String NumberofUpperCText = "";
-	private String NumberofLowerCText = "";
-	private String NumberofSymbolsText = "";
-	private String NumberofCharsText = "";
-	private String NumofRepeatedCharText = "";
-	private String IllegalSequenceLabelText = "";
-
-	private boolean PWLengthisValid;
-	private boolean NumberofNumsisValid;
-	private boolean NumberofUpperCisValid;
-	private boolean NumberofLowerCisValid;
-	private boolean NumberofSymbolsisValid;
-	private boolean NumberofCharsisValid;
-	private boolean NumofRepeatedCharisValid;
-	private boolean IllegalSequenceLabelisValid;
+	private HashMap<Label,Boolean> labelisNotValid;
+	private HashMap<String, Label> errorMap;
 	
 	
 	@FXML
@@ -114,132 +100,64 @@ public class PasswordAnalysis implements Initializable{
 		isValid = validatePassword();
 		System.out.println("is password valid : " + isValid);
 		checkEachValidation();
-		//setLabelColors();
+		setLabelColors();
 		System.out.println(score.getPasswordscore());
 	}
 
 	
+
+	private void setLabelColors() {
+		// TODO Auto-generated method stub
+			
+	}
+
+
 
 	private void checkEachValidation() {
 		// TODO Auto-generated method stub
 		initializeLabels();
 		ArrayList<String> listofErrors = new ArrayList<String>();
 		for (RuleResultDetail msg : result.getDetails()) {
-			System.out.println(msg.getErrorCode());
-			listofErrors.add(msg.getErrorCode());
+			Label errorLabel = errorMap.get(msg.getErrorCode());
+			if(errorLabel != null){
+				labelisNotValid.put(errorLabel, true);
+			}
 		
 		}
-
+		
+		System.out.println(labelisNotValid);
+		
+		
 		scoreVar = Password.length()*8;
 
-		if (!isValid) {
-			if (listofErrors.contains("TOO_SHORT")) {
-				PWLengthText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				PWLengthText += "yes";
-				PWLengthisValid = true;
-			}
-			if (listofErrors.contains("INSUFFICIENT_UPPERCASE")) {
-				NumberofUpperCText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumberofUpperCText += "yes";
-				NumberofUpperCisValid = true;
-			}
-			if (listofErrors.contains("INSUFFICIENT_LOWERCASE")) {
-				NumberofLowerCText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumberofLowerCText += "yes";
-				NumberofLowerCisValid = true;
-			}
-			if (listofErrors.contains("INSUFFICIENT_DIGIT")) {
-				NumberofNumsText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumberofNumsText += "yes";
-				NumberofNumsisValid = true;
-			}
-			if (listofErrors.contains("INSUFFICIENT_SPECIAL")) {
-				NumberofSymbolsText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumberofSymbolsText += "yes";
-				NumberofSymbolsisValid = true;
-			}
-			if (listofErrors.contains("INSUFFICIENT_ALPHABETICAL")) {
-				NumberofCharsText += "no";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumberofCharsText += "yes";
-				NumberofCharsisValid = true;
-			}
-
-			if (listofErrors.contains("ILLEGAL_MATCH")) {
-				NumofRepeatedCharText += "yes";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				NumofRepeatedCharText += "no";
-				NumofRepeatedCharisValid = true;
-			}
-
-			if (listofErrors.contains("ILLEGAL_NUMERICAL_SEQUENCE")
-					|| listofErrors.contains("ILLEGAL_ALPHABETICAL_SEQUENCE")
-					|| listofErrors.contains("ILLEGAL_QWERTY_SEQUENCE")) {
-				IllegalSequenceLabelText += "yes";
-				if (scoreVar > 20)
-					scoreVar -= 10;
-			} else {
-				IllegalSequenceLabelText += "no";
-				IllegalSequenceLabelisValid = true;
-			}
-		} else {
-			scoreVar += 20;
-		}
-
+		
 		score.setPasswordscore(scoreVar * 0.01);
-
-		PWLength.setText(PWLengthText);
-		NumberofNums.setText(NumberofNumsText);
-		NumofUpperC.setText(NumberofUpperCText);
-		NumofSymbols.setText(NumberofSymbolsText);
-		NumofLowerC.setText(NumberofLowerCText);
-		NumberofChars.setText(NumberofCharsText);
-		NumofRepeatedChar.setText(NumofRepeatedCharText);
-		IllegalSequenceLabel.setText(IllegalSequenceLabelText);
-
-		listofErrors = null;
 	}
 
 	private void initializeLabels() {
 		// TODO Auto-generated method stub
-		PWLengthText = "Length is more than 8 :  ";
-		NumberofNumsText = "Has minimum two numeric characters: ";
-		NumberofUpperCText = "Has minimum two uppercase characters:";
-		NumberofLowerCText = "Has minimum two lowercase characters : ";
-		NumberofSymbolsText = "Has minimum two symbols : ";
-		NumberofCharsText = " Has minimum two characters : ";
-		NumofRepeatedCharText = "Does not have repeated characters : ";
-		IllegalSequenceLabelText = " Does not have sequences : ";
-
-		PWLengthisValid = false;
-		NumberofNumsisValid = false;
-		NumberofUpperCisValid = false;
-		NumberofLowerCisValid = false;
-		NumberofSymbolsisValid = false;
-		NumberofCharsisValid = false;
-		NumofRepeatedCharisValid = false;
-		IllegalSequenceLabelisValid = false;
+		
+		labelisNotValid.put(NumberofChars, false);
+		labelisNotValid.put(NumberofNums,false);
+		labelisNotValid.put(NumofLowerC,false);
+		labelisNotValid.put(NumofUpperC,false);
+		labelisNotValid.put(NumofRepeatedChar,false);
+		labelisNotValid.put(PWLength,false);
+		labelisNotValid.put(IllegalSequenceLabel,false);
+		labelisNotValid.put(NumofSymbols,false);
 	}
-
+private void initializeErrorMap(){
+	errorMap.put("TOO_SHORT", PWLength);
+	errorMap.put("INSUFFICIENT_UPPERCASE", NumofUpperC);
+	errorMap.put("INSUFFICIENT_LOWERCASE", NumofLowerC);
+	errorMap.put("INSUFFICIENT_DIGIT", NumberofNums);
+	errorMap.put("INSUFFICIENT_SPECIAL", NumofSymbols);
+	errorMap.put("ILLEGAL_MATCH", NumofRepeatedChar);
+	errorMap.put("INSUFFICIENT_ALPHABETICAL", NumberofChars);
+	errorMap.put("ILLEGAL_NUMERICAL_SEQUENCE", IllegalSequenceLabel);
+	errorMap.put("ILLEGAL_ALPHABETICAL_SEQUENCE", IllegalSequenceLabel);
+	errorMap.put("ILLEGAL_QWERTY_SEQUENCE", IllegalSequenceLabel);
+}
 	private boolean validatePassword() {
 		// TODO Auto-generated method stub
 		result = validator.validate(new PasswordData(new String(Password)));
