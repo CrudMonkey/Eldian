@@ -101,7 +101,7 @@ public class PasswordAnalysis implements Initializable{
 		System.out.println("is password valid : " + isValid);
 		checkEachValidation();
 		setLabelColors();
-		System.out.println(score.getPasswordscore());
+		//System.out.println(score.getPasswordscore());
 	}
 
 	
@@ -116,16 +116,19 @@ public class PasswordAnalysis implements Initializable{
 	private void checkEachValidation() {
 		// TODO Auto-generated method stub
 		initializeLabels();
+		initializeErrorMap();
 		ArrayList<String> listofErrors = new ArrayList<String>();
 		for (RuleResultDetail msg : result.getDetails()) {
+			System.out.println( "Error is " + msg.getErrorCode());
 			Label errorLabel = errorMap.get(msg.getErrorCode());
+			System.out.println( "Error label  is " + errorLabel);
 			if(errorLabel != null){
 				labelisNotValid.put(errorLabel, true);
 			}
 		
 		}
 		
-		System.out.println(labelisNotValid);
+		System.out.println("errors are " + labelisNotValid);
 		
 		
 		scoreVar = Password.length()*8;
@@ -205,14 +208,13 @@ private void initializeErrorMap(){
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		errorMap = new HashMap<>();
+		labelisNotValid = new HashMap<>();
 		addTextLimiter(PasswordInput, 14);
 		score = new PasswordScore();
 		addRules();
 		score.setPasswordscore(0);
 		score.numberProperty().addListener((v, oldValue, newValue) -> {
-			System.out.println(oldValue);
-			System.out.println(newValue);
-
 		});
 		Progress.progressProperty().bind(score.numberProperty());
 

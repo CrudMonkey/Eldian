@@ -192,7 +192,7 @@ public class HomeScreen {
 
 	private void constructEntryTable() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		System.out.println("lol");
+		//System.out.println("lol");
 		accountColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("account_name"));
 		loginColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("login_id"));
 		passwordColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("password"));
@@ -205,7 +205,7 @@ public class HomeScreen {
 		// TODO Auto-generated method stub
 		
 		try{
-		System.out.println(new Account(UserID).getEntries());
+		//System.out.println(new Account(UserID).getEntries());
 		ObservableList<UserEntry> userEntries = FXCollections.observableArrayList(new Account(UserID).getEntries());
 		return userEntries;
 		}
@@ -219,7 +219,7 @@ public class HomeScreen {
 		// TODO Auto-generated method stub
 		this.UserID = userid;
 		this.masterPassword = masterPassword;
-		System.out.println(UserID);
+		//System.out.println(UserID);
 		dialogBox = new Home_Dialog_Box(UserID);
 		try {
 			constructEntryTable();
