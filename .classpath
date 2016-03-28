@@ -6,5 +6,8 @@
 	<classpathentry kind="lib" path="F:/Eldian/commons-codec-1.10/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="F:/College/SE/Password_Manager/Password Manager/lib/passay-1.1.0.jar"/>
 	<classpathentry kind="lib" path="F:/College/SE/Mini Project/sqlite-jdbc-3.8.11.2.jar"/>
+	<classpathentry kind="lib" path="lib/passay-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.11.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
