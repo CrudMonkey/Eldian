@@ -11,34 +11,35 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeScreen">
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #deeaf7;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="addEntryBT" mnemonicParsing="false" onMouseClicked="#onAddEntry" prefHeight="31.0" prefWidth="111.0" text="Add" />
             <Button fx:id="deleteEntryBT" mnemonicParsing="false" onMouseClicked="#onDeleteEntry" prefHeight="31.0" prefWidth="140.0" text="Delete" />
             <Button fx:id="editEntryBT" mnemonicParsing="false" onMouseClicked="#onEditEntry" prefHeight="31.0" prefWidth="135.0" text="Edit" />
-            <Region prefHeight="100.0" prefWidth="474.0" style="-fx-background-color: #deeaf7;" />
-            <TextField fx:id="searchField" prefHeight="31.0" prefWidth="107.0" />
-            <Button fx:id="SearchBTBT" mnemonicParsing="false" onMouseClicked="#onSearchClick" prefHeight="31.0" prefWidth="124.0" text="Search" />
+            <Region prefHeight="100.0" prefWidth="474.0" />
+            <TextField fx:id="searchField" />
+            <Button fx:id="SearchBTBT" mnemonicParsing="false" onMouseClicked="#onSearchClick" prefHeight="31.0" prefWidth="124.0" text="Seacrh" />
          </children>
       </HBox>
    </top>
    <left>
-      <VBox prefHeight="538.0" prefWidth="168.0" style="-fx-background-color: #deeaf7;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="538.0" prefWidth="168.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="PWAnalysisBT" mnemonicParsing="false" onMouseClicked="#onPWAnalysisClick" prefHeight="31.0" prefWidth="170.0" text="Password Analysis" />
-            <Button fx:id="PWGenerationBT" mnemonicParsing="false" onMouseClicked="#onPWGenerationClick" prefHeight="31.0" prefWidth="170.0" text="Password Generation" />
-            <Button mnemonicParsing="false" onMouseClicked="#onSNotesClick" prefHeight="31.0" prefWidth="170.0" text="Secure Notes" />
-            <Button mnemonicParsing="false" onMouseClicked="#onLogOutClick" prefHeight="31.0" prefWidth="170.0" text="Log Out" />
+            <Button fx:id="PWAnalysisBT" mnemonicParsing="false" onMouseClicked="#onPWAnalysisClick" prefHeight="31.0" prefWidth="154.0" text="Password Analysis" />
+            <Button fx:id="PWGenerationBT" mnemonicParsing="false" onMouseClicked="#onPWGenerationClick" text="Password Generation" />
+            <Button mnemonicParsing="false" text="Secure Notes" />
+            <Button mnemonicParsing="false" text="Account Settings" />
+            <Button mnemonicParsing="false" text="Log Out" />
          </children>
       </VBox>
    </left>
    <center>
-      <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-border-color: #00c6ff;" BorderPane.alignment="CENTER">
+      <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="accountColumn" prefWidth="120.0" text="Account Name" />
-            <TableColumn fx:id="loginColumn" prefWidth="120.0" text="Login" />
-            <TableColumn fx:id="passwordColumn" prefWidth="120.0" text="Password" />
-          <TableColumn fx:id="categoryColumn" prefWidth="120.0" text="Category" />
+          <TableColumn fx:id="accountColumn" prefWidth="75.0" text="Account Name" />
+            <TableColumn fx:id="loginColumn" prefWidth="75.0" text="Login" />
+            <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
+          <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
         </columns>
       </TableView>
    </center>

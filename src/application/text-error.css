@@ -1,0 +1,9 @@
+
+.text-field-error {
+  -fx-text-box-border: red ;
+  -fx-focus-color: red ;
+}
+
+.check-box {
+	-fx-border-color: lightblue;
+}

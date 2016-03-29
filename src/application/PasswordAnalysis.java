@@ -33,8 +33,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class PasswordAnalysis implements Initializable{
-	
+public class PasswordAnalysis implements Initializable {
+
 	private String userID;
 	private String masterPassword;
 	private String Password;
@@ -47,10 +47,9 @@ public class PasswordAnalysis implements Initializable{
 	@FXML
 	private Button backBtn;
 
-	private HashMap<Label,Boolean> labelisNotValid;
+	private HashMap<Label, Boolean> labelValidityMap;
 	private HashMap<String, Label> errorMap;
-	
-	
+
 	@FXML
 	private GridPane grid;
 	@FXML
@@ -91,76 +90,91 @@ public class PasswordAnalysis implements Initializable{
 
 	@FXML
 	private Button button;
-	
+
 	@FXML
 	private void onChange(KeyEvent event) {
 		// System.out.println("lol");
 		Password = PasswordInput.getText();
-		System.out.println(PasswordInput.getText());
+		//System.out.println(PasswordInput.getText());
 		isValid = validatePassword();
-		System.out.println("is password valid : " + isValid);
+		//System.out.println("is password valid : " + isValid);
 		checkEachValidation();
-		setLabelColors();
-		//System.out.println(score.getPasswordscore());
+		if (Password.length() != 0)
+			setLabelColors();
+		// System.out.println(score.getPasswordscore());
 	}
-
-	
 
 	private void setLabelColors() {
 		// TODO Auto-generated method stub
-			
+		for (Label label : labelValidityMap.keySet()) {
+			if (labelValidityMap.get(label) == true) {
+				//System.out.println(label.getText());
+				label.getStyleClass().add("errorLabel");
+				//System.out.println(label.getStyleClass());
+			} else {
+				label.getStyleClass().add("validLabel");
+			}
+		}
+
 	}
-
-
 
 	private void checkEachValidation() {
 		// TODO Auto-generated method stub
 		initializeLabels();
 		initializeErrorMap();
+		initializeColorsofLabels();
 		ArrayList<String> listofErrors = new ArrayList<String>();
 		for (RuleResultDetail msg : result.getDetails()) {
-			System.out.println( "Error is " + msg.getErrorCode());
+			//System.out.println("Error is " + msg.getErrorCode());
 			Label errorLabel = errorMap.get(msg.getErrorCode());
-			System.out.println( "Error label  is " + errorLabel);
-			if(errorLabel != null){
-				labelisNotValid.put(errorLabel, true);
+			//System.out.println("Error label  is " + errorLabel);
+			if (errorLabel != null) {
+				labelValidityMap.put(errorLabel, true);
 			}
-		
+
+		}
+
+		scoreVar = Password.length() * 8;
+
+		score.setPasswordscore(scoreVar * 0.01);
+	}
+
+	private void initializeColorsofLabels() {
+		// TODO Auto-generated method stub
+		for(Label label : labelValidityMap.keySet()){
+			//System.out.println("label calsses are "+label.getStyleClass());
+			label.getStyleClass().remove("errorLabel");
+			label.getStyleClass().remove("validLabel");
 		}
 		
-		System.out.println("errors are " + labelisNotValid);
-		
-		
-		scoreVar = Password.length()*8;
-
-		
-		score.setPasswordscore(scoreVar * 0.01);
 	}
 
 	private void initializeLabels() {
 		// TODO Auto-generated method stub
-		
-		labelisNotValid.put(NumberofChars, false);
-		labelisNotValid.put(NumberofNums,false);
-		labelisNotValid.put(NumofLowerC,false);
-		labelisNotValid.put(NumofUpperC,false);
-		labelisNotValid.put(NumofRepeatedChar,false);
-		labelisNotValid.put(PWLength,false);
-		labelisNotValid.put(IllegalSequenceLabel,false);
-		labelisNotValid.put(NumofSymbols,false);
+
+		labelValidityMap.put(NumberofChars, false);
+		labelValidityMap.put(NumberofNums, false);
+		labelValidityMap.put(NumofLowerC, false);
+		labelValidityMap.put(NumofUpperC, false);
+		labelValidityMap.put(NumofRepeatedChar, false);
+		labelValidityMap.put(PWLength, false);
+		labelValidityMap.put(IllegalSequenceLabel, false);
+		labelValidityMap.put(NumofSymbols, false);
 	}
-private void initializeErrorMap(){
-	errorMap.put("TOO_SHORT", PWLength);
-	errorMap.put("INSUFFICIENT_UPPERCASE", NumofUpperC);
-	errorMap.put("INSUFFICIENT_LOWERCASE", NumofLowerC);
-	errorMap.put("INSUFFICIENT_DIGIT", NumberofNums);
-	errorMap.put("INSUFFICIENT_SPECIAL", NumofSymbols);
-	errorMap.put("ILLEGAL_MATCH", NumofRepeatedChar);
-	errorMap.put("INSUFFICIENT_ALPHABETICAL", NumberofChars);
-	errorMap.put("ILLEGAL_NUMERICAL_SEQUENCE", IllegalSequenceLabel);
-	errorMap.put("ILLEGAL_ALPHABETICAL_SEQUENCE", IllegalSequenceLabel);
-	errorMap.put("ILLEGAL_QWERTY_SEQUENCE", IllegalSequenceLabel);
-}
+
+	private void initializeErrorMap() {
+		errorMap.put("TOO_SHORT", PWLength);
+		errorMap.put("INSUFFICIENT_UPPERCASE", NumofUpperC);
+		errorMap.put("INSUFFICIENT_LOWERCASE", NumofLowerC);
+		errorMap.put("INSUFFICIENT_DIGIT", NumberofNums);
+		errorMap.put("INSUFFICIENT_SPECIAL", NumofSymbols);
+		errorMap.put("ILLEGAL_MATCH", NumofRepeatedChar);
+		errorMap.put("INSUFFICIENT_ALPHABETICAL", NumberofChars);
+		errorMap.put("ILLEGAL_NUMERICAL_SEQUENCE", IllegalSequenceLabel);
+		errorMap.put("ILLEGAL_ALPHABETICAL_SEQUENCE", IllegalSequenceLabel);
+		errorMap.put("ILLEGAL_QWERTY_SEQUENCE", IllegalSequenceLabel);
+	}
+
 	private boolean validatePassword() {
 		// TODO Auto-generated method stub
 		result = validator.validate(new PasswordData(new String(Password)));
@@ -195,7 +209,6 @@ private void initializeErrorMap(){
 				new IllegalSequenceRule(EnglishSequenceData.Numerical, 3, true),
 
 				new IllegalSequenceRule(EnglishSequenceData.USQwerty, 3, true)
-
 		));
 
 	}
@@ -209,7 +222,7 @@ private void initializeErrorMap(){
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		errorMap = new HashMap<>();
-		labelisNotValid = new HashMap<>();
+		labelValidityMap = new HashMap<>();
 		addTextLimiter(PasswordInput, 14);
 		score = new PasswordScore();
 		addRules();
@@ -217,7 +230,6 @@ private void initializeErrorMap(){
 		score.numberProperty().addListener((v, oldValue, newValue) -> {
 		});
 		Progress.progressProperty().bind(score.numberProperty());
-
 	}
 
 	public static void addTextLimiter(final TextField tf, final int maxLength) {
@@ -226,10 +238,8 @@ private void initializeErrorMap(){
 				String s = tf.getText().substring(0, maxLength);
 				tf.setText(s);
 			}
-
 		});
 	}
-
 
 	@FXML
 	private void onBackBtnClick(MouseEvent event) throws Exception {
@@ -243,13 +253,10 @@ private void initializeErrorMap(){
 		stage.show();
 	}
 
-
 	public void setUser(String userid, String masterPassword) {
 		// TODO Auto-generated method stub
 		this.userID = userid;
 		this.masterPassword = masterPassword;
 	}
-	
-	
 
 }

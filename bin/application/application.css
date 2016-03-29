@@ -16,7 +16,15 @@
 	-fx-border-width: 2.0;
 }
 
-.label-grid{
-  -fx-border-radius: 10.0 10.0 0.0 0.0;
-  -fx-background-radius: 10.0 10.0 0.0 0.0;
+.label{
+  -fx-border-radius: 10.0 10.0 10.0 10.0;
+  -fx-background-radius: 10.0 10.0 10.0 10.0;
   }
+  
+ .errorLabel{
+ 	-fx-background-color: #F75D59;
+ }
+ 
+ .validLabel{
+ 	-fx-background-color: #CCFB5D;
+ }

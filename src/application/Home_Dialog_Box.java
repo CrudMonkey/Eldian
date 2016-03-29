@@ -47,43 +47,30 @@ public class Home_Dialog_Box {
 		EditEntry controller = fxmlLoader.<EditEntry> getController();
 		window.setResizable(false);
 		controller.setUser(UserID);
-		if (!selectedItems.isEmpty()) {
-			controller.setSelectedItems(selectedItems);
-			controller.setDataintoFields();
-			window.setScene(new Scene(root, 700, 575));
-			window.showAndWait();
-		} else {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText("You must select an option");
-			alert.showAndWait();
-		}
-
+		controller.setSelectedItems(selectedItems);
+		controller.setDataintoFields();
+		window.setScene(new Scene(root, 700, 575));
+		window.showAndWait();
 	}
 
 	private void deleteDialogBox() throws IOException, ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		//System.out.println(selectedItems);
-		if (!selectedItems.isEmpty()) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation Dialog");
-			alert.setContentText("Are you sure?");
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				DeleteEntry delete = new DeleteEntry(UserID);
-				delete.deleteEntries(selectedItems);
-				// System.out.println(selectedItems + UserID);
-				Alert alertdelete = new Alert(Alert.AlertType.INFORMATION);
-				alertdelete.setContentText("Successfully Deleted");
-				alertdelete.showAndWait();
-			} else {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Look, a Confirmation Dialog");
+		alert.setContentText("Are you ok with this?");
 
-			}
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			DeleteEntry delete = new DeleteEntry(UserID);
+			delete.deleteEntries(selectedItems);
+			// System.out.println(selectedItems + UserID);
+			Alert alertdelete = new Alert(Alert.AlertType.INFORMATION);
+			alertdelete.setContentText("Successfully Deleted");
+			alertdelete.showAndWait();
 		} else {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText("You must select at least one option");
-			alert.showAndWait();
-		}
 
+		}
 	}
 
 	private void addDialogBox() throws Exception {

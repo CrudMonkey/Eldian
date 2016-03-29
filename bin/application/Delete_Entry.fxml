@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="138.0" layoutY="112.0" mnemonicParsing="false" text="Yes" />
+      <Button layoutX="206.0" layoutY="112.0" mnemonicParsing="false" text="Cancel" />
+      <Label layoutX="34.0" layoutY="29.0" prefHeight="21.0" prefWidth="345.0" text="Are you sure you want delete the following records:" />
+      <Label layoutX="38.0" layoutY="68.0" prefHeight="21.0" prefWidth="338.0" />
+   </children>
+</AnchorPane>
