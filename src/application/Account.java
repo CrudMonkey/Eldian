@@ -142,4 +142,17 @@ public class Account {
 		return searchItemsList;
 	}
 
+	public void updatePassword(String newPassword) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		dbConnect();
+		String sql = "UPDATE users SET password = ? WHERE user_id = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		aesEncryption.encrypt(newPassword);
+		preparedStatement.setString(1,aesEncryption.getEncryptedString());
+		preparedStatement.setString(2,userID);
+		preparedStatement.executeUpdate();
+		dbClose();
+		
+	}
+
 }
