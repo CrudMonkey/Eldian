@@ -71,7 +71,7 @@ public class Login implements Initializable {
 		a.encrypt(username);
 		username = a.getEncryptedString();
 		String correctPass = "";
-		System.out.println("the username is " + username) ;
+		//System.out.println("the username is " + username) ;
 		try {
 			correctPass = new AccountCreation().getPass(username);
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class Login implements Initializable {
 		}
 		a.encrypt(password);
 		password = a.getEncryptedString();
-		System.out.println(correctPass + " matches user input " +  password);
+		//System.out.println(correctPass + " matches user input " +  password);
 		try {
 			if (correctPass.equals(password)) {
 				setUser(new AccountCreation().getUid(username), username+password);
@@ -122,7 +122,7 @@ public class Login implements Initializable {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("reset_password.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		stage.setTitle("Hello World");
-		Scene scene = new Scene(root, 700, 575);
+		Scene scene = new Scene(root, 400, 375);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();

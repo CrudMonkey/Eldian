@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml")); 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml")); 
         Parent root = (Parent)fxmlLoader.load(); 
         Login controller = fxmlLoader.<Login>getController();
         primaryStage.setTitle("Hello World");
