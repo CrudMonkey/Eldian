@@ -119,7 +119,7 @@ public class Login implements Initializable {
 	private void onForgotPwdButtClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
 		Stage stage = (Stage) Username.getScene().getWindow();
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("reset_password.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("for_password.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 400, 375);

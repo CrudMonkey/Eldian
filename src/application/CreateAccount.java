@@ -44,7 +44,7 @@ public class CreateAccount implements Initializable {
 	
 	@FXML
 	private void onCreateButtClick(MouseEvent event) throws Exception {
-		System.out.println("on create init");
+		//System.out.println("on create init");
 		String Username = username.getText();
 		String Password = password.getText();
 		String securityAnswer = SeqQDropAns.getText();

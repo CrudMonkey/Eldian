@@ -45,10 +45,11 @@ public class AccountCreation {
 		a.encrypt(password);
 		preparedStatement.setString(2, a.getEncryptedString());
 		preparedStatement.setString(3, new SimpleDateFormat("MM/dd/yyyy h:mm:ss a").format(new Date()));
+		a.setKey(userID+securityQuestionId);
 		a.encrypt(SecurityAnswer);
+		a.setKey(username+password);
 		preparedStatement.setString(4, a.getEncryptedString());
-		a.encrypt(securityQuestionId);
-		preparedStatement.setString(5, a.getEncryptedString());
+		preparedStatement.setString(5,securityQuestionId);
 		preparedStatement.executeUpdate();
 		dbClose();
 	}

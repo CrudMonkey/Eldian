@@ -155,4 +155,52 @@ public class Account {
 		
 	}
 
+	public String getSecurityQuestionID() throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		dbConnect();
+		String securityqID = "";
+		String sql = "Select security_question_id from users where user_id= ?";
+		PreparedStatement pstmt = connection.prepareStatement(sql);
+		pstmt.setString(1, userID);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			securityqID = rs.getString("security_question_id");
+		}
+		dbClose();
+		
+		return securityqID;
+	}
+
+	public String getSecurityQuestionText(String security_question_id) throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		dbConnect();
+		String securityqQText = "";
+		String sql = "Select question_text from security_questions where security_question_id= ?";
+		PreparedStatement pstmt = connection.prepareStatement(sql);
+		pstmt.setString(1, security_question_id);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			securityqQText = rs.getString("question_text");
+		}
+		dbClose();
+		
+		return securityqQText;
+	}
+
+	public String getSecurityQuestionAnswer() throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		dbConnect();
+		String securityqAns = "";
+		String sql = "Select security_answer from users where user_id= ?";
+		PreparedStatement pstmt = connection.prepareStatement(sql);
+		pstmt.setString(1, userID);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			securityqAns = rs.getString("security_answer");
+		}
+		dbClose();
+		
+		return securityqAns;
+	}
+
 }
