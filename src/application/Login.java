@@ -17,94 +17,91 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class Login implements Initializable{
-	
-	private String userid;
-	private String masterPassword;
+public class Login implements Initializable {
+
+	private String userID;
+	private String usernameandPassword;
 	@FXML
 	private TextField Username;
-	
+
 	@FXML
 	private PasswordField Password;
-	
+
 	@FXML
 	private Button SubmitButt;
-	
+
 	@FXML
 	private Button CreateAccButt;
 
 	@FXML
 	private Button ForgotPwdButt;
-	
+
 	@FXML
 	private Button GuestNotes;
-	
+
 	@FXML
 	private void onSubmitButtClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
-		if(validate()){
-			//System.out.println("lol");
-		Stage stage = (Stage) Username.getScene().getWindow();
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml")); 
-        Parent root = (Parent)fxmlLoader.load(); 
-        HomeScreen controller = fxmlLoader.<HomeScreen>getController();
-        //System.out.println(userid + "submit" + masterPassword);
-        controller.setUser(userid,masterPassword);
-		stage.setTitle("Hello World");
-		stage.setResizable(false);
-		Scene scene = new Scene(root, 1000, 575);
-		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
-		stage.setScene(scene);
-		stage.show();
-		}
-		else{
-		Alert alert= new Alert(Alert.AlertType.ERROR);
-		alert.setContentText("Invalid Username or Password");
-		alert.showAndWait();
+		if (validate()) {
+			// System.out.println("lol");
+			Stage stage = (Stage) Username.getScene().getWindow();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home_Screen.fxml"));
+			Parent root = (Parent) fxmlLoader.load();
+			HomeScreen controller = fxmlLoader.<HomeScreen> getController();
+			// System.out.println(userid + "submit" + masterPassword);
+			Account account = new Account(userID, usernameandPassword);
+			controller.setUser(account);
+			stage.setTitle("Hello World");
+			stage.setResizable(false);
+			Scene scene = new Scene(root, 1000, 575);
+			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+			stage.setScene(scene);
+			stage.show();
+		} else {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Invalid Username or Password");
+			alert.showAndWait();
 		}
 	}
-	private boolean validate() throws ClassNotFoundException, SQLException{
+
+	private boolean validate() throws ClassNotFoundException, SQLException {
 		String username = Username.getText();
 		String password = Password.getText();
-		AES a =new AES(username);
-		a.encrypt(password);
-		masterPassword= a.getEncryptedString();
-		a = new AES(masterPassword);
+		AES a = new AES(username+password);
 		a.encrypt(username);
 		username = a.getEncryptedString();
-		//System.out.println(username);
-		String correctPass ="";
+		String correctPass = "";
+		System.out.println("the username is " + username) ;
 		try {
-			correctPass = new AccountCreation(masterPassword).getPass(username);
+			correctPass = new AccountCreation().getPass(username);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		a.encrypt(password);
 		password = a.getEncryptedString();
-		try{
-		if(correctPass.equals(password)){
-			setUser(new AccountCreation(masterPassword).getUid(username),masterPassword);
-			return true;
-			
-		}}
-		catch(Exception e){
+		System.out.println(correctPass + " matches user input " +  password);
+		try {
+			if (correctPass.equals(password)) {
+				setUser(new AccountCreation().getUid(username), username+password);
+				return true;
 
-			
+			}
+		} catch (Exception e) {
+
 		}
 		return false;
 		// TODO Auto-generated method stub
-		
-		
-		
+
 	}
+
 	private String validatePass(String username2) {
 		// TODO Auto-generated method stub
-		
-		
+
 		return "";
-		
+
 	}
+
 	@FXML
 	private void onCreateAccButtClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
@@ -117,6 +114,7 @@ public class Login implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 	}
+
 	@FXML
 	private void onForgotPwdButtClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
@@ -129,6 +127,7 @@ public class Login implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 	}
+
 	@FXML
 	private void onGuestNotesClick(MouseEvent event) throws Exception {
 		// System.out.println("lol");
@@ -141,16 +140,17 @@ public class Login implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 	}
-	public void setUser(String user_id, String masterPassword) {
+
+	public void setUser(String user_id, String usernameandPassword) {
 		// TODO Auto-generated method stub
-		this.userid = user_id;
-		this.masterPassword = masterPassword;
+		this.userID = user_id;
+		this.usernameandPassword = usernameandPassword;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

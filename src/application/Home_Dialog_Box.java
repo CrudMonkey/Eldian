@@ -16,12 +16,15 @@ import javafx.stage.Stage;
 
 public class Home_Dialog_Box {
 
-	private String UserID;
-	ObservableList<UserEntry> selectedItems;
+	private String userID;
+	private ObservableList<UserEntry> selectedItems;
+	private String usernameandPassword;
+	private Account account;
+	
 
-	public Home_Dialog_Box(String userID) {
+	public Home_Dialog_Box(Account account) {
 		// TODO Auto-generated constructor stub
-		this.UserID = userID;
+		this.account = account;
 	}
 
 	public void display(String function) throws Exception {
@@ -46,7 +49,7 @@ public class Home_Dialog_Box {
 		Parent root = (Parent) fxmlLoader.load();
 		EditEntry controller = fxmlLoader.<EditEntry> getController();
 		window.setResizable(false);
-		controller.setUser(UserID);
+		controller.setUser(account);
 		controller.setSelectedItems(selectedItems);
 		controller.setDataintoFields();
 		window.setScene(new Scene(root, 700, 575));
@@ -62,7 +65,7 @@ public class Home_Dialog_Box {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			DeleteEntry delete = new DeleteEntry(UserID);
+			DeleteEntry delete = new DeleteEntry(account);
 			delete.deleteEntries(selectedItems);
 			// System.out.println(selectedItems + UserID);
 			Alert alertdelete = new Alert(Alert.AlertType.INFORMATION);
@@ -84,7 +87,7 @@ public class Home_Dialog_Box {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add_Entry.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		AddEntry controller = fxmlLoader.<AddEntry> getController();
-		controller.setUser(UserID);
+		controller.setUser(account);
 		window.setScene(new Scene(root, 700, 575));
 		window.showAndWait();
 

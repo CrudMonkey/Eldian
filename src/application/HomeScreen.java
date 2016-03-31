@@ -24,8 +24,9 @@ import javafx.stage.Stage;
 
 public class HomeScreen {
 
-	private String UserID;
+	private String userID;
 	private Home_Dialog_Box dialogBox;
+	private Account account;
 
 	@FXML
 	private BorderPane borderPane;
@@ -121,7 +122,7 @@ public class HomeScreen {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Analysis.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		PasswordAnalysis controller = fxmlLoader.<PasswordAnalysis>getController();
-        controller.setUser(UserID,masterPassword);
+        controller.setUser(account);
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
@@ -136,7 +137,7 @@ public class HomeScreen {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Password_Generator.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		PasswordGeneration controller = fxmlLoader.<PasswordGeneration>getController();
-        controller.setUser(UserID,masterPassword);
+        controller.setUser(account);
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
@@ -153,7 +154,7 @@ public class HomeScreen {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secure_Notes.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		SecureNotes controller = fxmlLoader.<SecureNotes>getController();
-		controller.setUser(UserID,masterPassword);
+		controller.setUser(userID,masterPassword);
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
@@ -186,7 +187,7 @@ public class HomeScreen {
 	private ObservableList<UserEntry> getSearchItems(String searchString) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		ObservableList<UserEntry> userEntries = FXCollections
-				.observableArrayList(new Account(UserID).getSearchEntries(searchString));
+				.observableArrayList(account.getSearchEntries(searchString));
 		return userEntries;
 	}
 
@@ -205,8 +206,8 @@ public class HomeScreen {
 		// TODO Auto-generated method stub
 		
 		try{
-		System.out.println(new Account(UserID).getEntries());
-		ObservableList<UserEntry> userEntries = FXCollections.observableArrayList(new Account(UserID).getEntries());
+		System.out.println(account.getEntries());
+		ObservableList<UserEntry> userEntries = FXCollections.observableArrayList(account.getEntries());
 		return userEntries;
 		}
 		catch(Exception e){
@@ -215,12 +216,10 @@ public class HomeScreen {
 		return null;
 	}
 
-	public void setUser(String userid, String masterPassword) {
+	public void setUser(Account account) {
 		// TODO Auto-generated method stub
-		this.UserID = userid;
-		this.masterPassword = masterPassword;
-		System.out.println(UserID);
-		dialogBox = new Home_Dialog_Box(UserID);
+		this.account = account;
+		dialogBox = new Home_Dialog_Box(account);
 		try {
 			constructEntryTable();
 		} catch (ClassNotFoundException | SQLException e) {
