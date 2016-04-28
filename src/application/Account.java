@@ -78,7 +78,7 @@ public class Account {
 	public void deleteEntry(ArrayList<String> idListofSelectedItems) throws ClassNotFoundException, SQLException {
 		for (String entryID : idListofSelectedItems) {
 			dbConnect();
-			System.out.println(entryID);
+			//System.out.println(entryID);
 			String sql = "delete from entries where entry_id=?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, entryID);

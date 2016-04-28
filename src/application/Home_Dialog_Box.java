@@ -34,7 +34,26 @@ public class Home_Dialog_Box {
 			deleteDialogBox();
 		if (function.equals("edit"))
 			editDialogBox();
+		if (function.equals("analyze"))
+			analyzeDialogBox();
 
+	}
+
+	private void analyzeDialogBox() throws IOException, ClassNotFoundException, SQLException {
+		// TODO analyze dialog box
+		Stage window = new Stage();
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Edit Entry");
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Analyze_Passwords.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		AnalyzeDatabasePasswords controller = fxmlLoader.<AnalyzeDatabasePasswords> getController();
+		window.setResizable(false);
+		controller.setUser(account);
+		controller.constructTable();
+		window.setScene(new Scene(root, 480, 425));
+		window.showAndWait();
+		
 	}
 
 	private void editDialogBox() throws Exception {

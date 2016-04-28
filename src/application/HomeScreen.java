@@ -48,6 +48,9 @@ public class HomeScreen {
 
 	@FXML
 	private Button addEntryBT;
+	
+	@FXML
+	private Button AnalyzeBT;
 
 	@FXML
 	private Button editEntryBT;
@@ -90,7 +93,7 @@ public class HomeScreen {
 	private void onDeleteEntry(MouseEvent event) throws Exception {
 		// System.out.println("lol");
 		ObservableList<UserEntry> selectedItems = getSelectedItems();
-		System.out.println(selectedItems);
+		//System.out.println(selectedItems);
 		dialogBox.setSelectedItems(selectedItems);
 		dialogBox.display("delete");
 		constructEntryTable();
@@ -98,6 +101,18 @@ public class HomeScreen {
 		
 	}
 
+	@FXML
+	private void onAnalyzeBTClick(MouseEvent event) throws Exception {
+		// System.out.println("lol");
+		ObservableList<UserEntry> selectedItems = getSelectedItems();
+		//System.out.println(selectedItems);
+		dialogBox.setSelectedItems(selectedItems);
+		dialogBox.display("analyze");
+		constructEntryTable();
+		table.setItems(getEntries());
+		
+	}
+	
 	private ObservableList<UserEntry> getSelectedItems() {
 		// TODO Auto-generated method stub
 		ObservableList<UserEntry> productSelected;
@@ -124,7 +139,7 @@ public class HomeScreen {
 		PasswordAnalysis controller = fxmlLoader.<PasswordAnalysis>getController();
         controller.setUser(account);
 		stage.setTitle("Hello World");
-		Scene scene = new Scene(root, 700, 575);
+		Scene scene = new Scene(root, 600, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
@@ -149,12 +164,12 @@ public class HomeScreen {
 	
 	@FXML
 	private void onSNotesClick(MouseEvent event) throws Exception {
-		// System.out.println("lol");
+		System.out.println("lol");
 		Stage stage = (Stage) borderPane.getScene().getWindow();
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secure_Notes.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
 		SecureNotes controller = fxmlLoader.<SecureNotes>getController();
-		controller.setUser(userID,masterPassword);
+		controller.setUser(account);
 		stage.setTitle("Hello World");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
@@ -193,7 +208,7 @@ public class HomeScreen {
 
 	private void constructEntryTable() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		System.out.println("lol");
+		//System.out.println("lol");
 		accountColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("account_name"));
 		loginColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("login_id"));
 		passwordColumn.setCellValueFactory(new PropertyValueFactory<UserEntry, String>("password"));
@@ -206,7 +221,7 @@ public class HomeScreen {
 		// TODO Auto-generated method stub
 		
 		try{
-		System.out.println(account.getEntries());
+		//System.out.println(account.getEntries());
 		ObservableList<UserEntry> userEntries = FXCollections.observableArrayList(account.getEntries());
 		return userEntries;
 		}

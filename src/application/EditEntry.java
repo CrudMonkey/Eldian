@@ -81,7 +81,7 @@ public class EditEntry{
 	}
 
 	public void setSelectedItems(ObservableList<UserEntry> selectedItems) {
-		System.out.println(selectedItems);
+		//System.out.println(selectedItems);
 		this.selectedItems = selectedItems;
 	}
 	

@@ -21,6 +21,8 @@ public class Login implements Initializable {
 
 	private String userID;
 	private String usernameandPassword;
+	private String masterPassword;
+	
 	@FXML
 	private TextField Username;
 
@@ -38,6 +40,7 @@ public class Login implements Initializable {
 
 	@FXML
 	private Button GuestNotes;
+	private String masterpass;
 
 	@FXML
 	private void onSubmitButtClick(MouseEvent event) throws Exception {
@@ -51,9 +54,9 @@ public class Login implements Initializable {
 			// System.out.println(userid + "submit" + masterPassword);
 			Account account = new Account(userID, usernameandPassword);
 			controller.setUser(account);
-			stage.setTitle("Hello World");
+			stage.setTitle("Home Screen | Eldian");
 			stage.setResizable(false);
-			Scene scene = new Scene(root, 1000, 575);
+			Scene scene = new Scene(root, 878, 538);
 			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.show();
@@ -67,13 +70,16 @@ public class Login implements Initializable {
 	private boolean validate() throws ClassNotFoundException, SQLException {
 		String username = Username.getText();
 		String password = Password.getText();
-		AES a = new AES(username+password);
+		AES a =new AES(username);
+		a.encrypt(password);
+		masterpass=a.getEncryptedString();
+		a =new AES(masterpass);
 		a.encrypt(username);
 		username = a.getEncryptedString();
 		String correctPass = "";
 		//System.out.println("the username is " + username) ;
 		try {
-			correctPass = new AccountCreation().getPass(username);
+			correctPass = new AccountCreation(masterpass).getPass(username);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,7 +89,11 @@ public class Login implements Initializable {
 		//System.out.println(correctPass + " matches user input " +  password);
 		try {
 			if (correctPass.equals(password)) {
-				setUser(new AccountCreation().getUid(username), username+password);
+				AccountCreation account = new AccountCreation(masterpass);
+				
+				account.updateTimeStamp(username);
+				setUser(account.getUid(username), username+password);
+				
 				return true;
 
 			}
@@ -134,7 +144,7 @@ public class Login implements Initializable {
 		Stage stage = (Stage) Username.getScene().getWindow();
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secure_Notes.fxml"));
 		Parent root = (Parent) fxmlLoader.load();
-		stage.setTitle("Hello World");
+		stage.setTitle("Secure Notes | Eldian");
 		Scene scene = new Scene(root, 700, 575);
 		scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 		stage.setScene(scene);

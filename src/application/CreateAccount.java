@@ -38,7 +38,7 @@ public class CreateAccount implements Initializable {
 	
 	@FXML
 	private Button backbtn;
-	
+	private String masterpass;
 	@FXML
 	private TextField SeqQDropAns;
 	
@@ -47,10 +47,11 @@ public class CreateAccount implements Initializable {
 		//System.out.println("on create init");
 		String Username = username.getText();
 		String Password = password.getText();
-		String securityAnswer = SeqQDropAns.getText();
-		AccountCreation account = new AccountCreation();
-		String securityQuestionId = Integer.toString(SeqQDropt.getSelectionModel().getSelectedIndex()); 
-		account.AddEntry(Username, Password, securityQuestionId,securityAnswer);
+		AES a =new AES(Username);
+		a.encrypt(Password);
+		masterpass=a.getEncryptedString();
+		AccountCreation account = new AccountCreation(masterpass);
+		account.AddEntry(Username, Password);
 		//System.out.println("lol");
 	}
 	
@@ -58,24 +59,6 @@ public class CreateAccount implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		//System.out.println("initizled");
-		try {
-			fillComboBox();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private void fillComboBox() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		//System.out.println("fill combo box triggered");
-		AccountCreation create_acc = new AccountCreation();
-		ArrayList<String> listofQuestions = create_acc.getSecurityQuestions();
-		SeqQDropt.getItems().addAll(listofQuestions);
 	}
 
 	@FXML

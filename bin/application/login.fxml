@@ -21,7 +21,6 @@
                   <Font name="Kartika" size="40.0" />
                </font>
             </Text>
-            <Button fx:id="ForgotPwdButt" layoutX="88.0" layoutY="251.0" mnemonicParsing="false" onMouseClicked="#onForgotPwdButtClick" prefHeight="31.0" prefWidth="144.0" text="Forgot Password?" />
          </children>
       </AnchorPane>
    </children>

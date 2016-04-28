@@ -44,12 +44,11 @@ public class PasswordAnalysis implements Initializable {
 	private Account account;
 	private HashMap<Label, Boolean> labelValidityMap;
 	private HashMap<String, Label> errorMap;
+	private boolean IsScreenLoaded = true;
 
-	
 	@FXML
 	private Button backBtn;
-	
-	
+
 	@FXML
 	private GridPane grid;
 	@FXML
@@ -59,7 +58,7 @@ public class PasswordAnalysis implements Initializable {
 	private ProgressBar Progress;
 
 	@FXML
-	private Label PWComment;
+	private Label PWPercentage;
 
 	@FXML
 	private Label PWLength;
@@ -90,28 +89,75 @@ public class PasswordAnalysis implements Initializable {
 
 	@FXML
 	private Button button;
-	
 
 	@FXML
 	private void onChange(KeyEvent event) {
 		// System.out.println("lol");
-		Password = PasswordInput.getText();
-		//System.out.println(PasswordInput.getText());
-		isValid = validatePassword();
-		//System.out.println("is password valid : " + isValid);
+		isValid = isPasswordValid();
+	}
+
+	public boolean isPasswordValid() {
+		// System.out.println(PasswordInput.getText());
+		scoreVar = 0;
+		PWPercentage.setText("0%");
+		if (IsScreenLoaded)
+			Password = PasswordInput.getText();
+		boolean isPWValid = validatePassword();
+		// System.out.println("is password valid : " + isValid);
 		checkEachValidation();
-		if (Password.length() != 0)
+		if (Password.length() != 0 && IsScreenLoaded) {
 			setLabelColors();
-		// System.out.println(score.getPasswordscore());
+			// System.out.println(score.getPasswordscore());
+			calculateScore();
+			setProgressbarColor();
+		}
+		return isPWValid;
+	}
+
+	private void setProgressbarColor() {
+		if (scoreVar < 30)
+			Progress.getStyleClass().add("weak-password-progressbar");
+		else if(scoreVar < 60)
+			Progress.getStyleClass().add("average-password-progressbar");
+		else{
+			//System.out.println(scoreVar + "entered else");
+			Progress.getStyleClass().add("strong-password-progressbar");
+			//System.out.println(Progress.getStyleClass() + "styles in progress bar");
+		}
+	}
+
+	private void calculateScore() {
+		
+		if (Password.length() == 0)
+			scoreVar = 0;
+		if (Password.length() < 7)
+			scoreVar = Password.length() * 2;
+		else
+			scoreVar = Password.length() * 3;
+
+		for (Label label : labelValidityMap.keySet()) {
+			if (labelValidityMap.get(label) == true) {
+				// System.out.println(label.getText());
+				if (scoreVar > 10)
+					scoreVar -= 10;
+				// System.out.println(label.getStyleClass());
+			} else {
+				scoreVar += 8;
+			}
+		}
+		if(scoreVar > 100)
+			scoreVar = 100;
+		score.setPasswordscore(scoreVar * 0.01);
+		PWPercentage.setText(Double.toString(scoreVar)+"%");
 	}
 
 	private void setLabelColors() {
 		// TODO Auto-generated method stub
 		for (Label label : labelValidityMap.keySet()) {
 			if (labelValidityMap.get(label) == true) {
-				//System.out.println(label.getText());
+				// System.out.println(label.getText());
 				label.getStyleClass().add("errorLabel");
-				//System.out.println(label.getStyleClass());
+				// System.out.println(label.getStyleClass());
 			} else {
 				label.getStyleClass().add("validLabel");
 			}
@@ -121,33 +167,53 @@ public class PasswordAnalysis implements Initializable {
 
 	private void checkEachValidation() {
 		// TODO Auto-generated method stub
-		initializeLabels();
 		initializeErrorMap();
-		initializeColorsofLabels();
+		if (IsScreenLoaded) {
+			initializeLabels();
+			initializeColorsofLabels();
+			initializeProgressBarColor();
+		}
 		ArrayList<String> listofErrors = new ArrayList<String>();
 		for (RuleResultDetail msg : result.getDetails()) {
-			//System.out.println("Error is " + msg.getErrorCode());
+			// System.out.println("Error is " + msg.getErrorCode());
 			Label errorLabel = errorMap.get(msg.getErrorCode());
-			//System.out.println("Error label  is " + errorLabel);
+			// System.out.println("Error label is " + errorLabel);
 			if (errorLabel != null) {
 				labelValidityMap.put(errorLabel, true);
 			}
-
 		}
 
-		scoreVar = Password.length() * 8;
+	}
 
-		score.setPasswordscore(scoreVar * 0.01);
+	private void initializeProgressBarColor() {
+		Progress.getStyleClass().remove("weak-password-progressbar");
+		Progress.getStyleClass().remove("average-password-progressbar");
+		Progress.getStyleClass().remove("strong-password-progressbar");
+		
+	}
+
+	public void setPasswordFieldText(String password) {
+		PasswordInput.setText(password);
+	}
+
+	public void setIsScreenLoaded(boolean isScreenLoaded) {
+		IsScreenLoaded = isScreenLoaded;
+	}
+
+	public RuleResult getResult() {
+		return result;
 	}
 
 	private void initializeColorsofLabels() {
 		// TODO Auto-generated method stub
-		for(Label label : labelValidityMap.keySet()){
-			//System.out.println("label calsses are "+label.getStyleClass());
+		for (Label label : labelValidityMap.keySet()) {
+			// System.out.println("label calsses are "+label.getStyleClass());
+			// System.out.println(label);
 			label.getStyleClass().remove("errorLabel");
+			// System.out.println(label.getStyleClass());
 			label.getStyleClass().remove("validLabel");
 		}
-		
+
 	}
 
 	private void initializeLabels() {
@@ -209,28 +275,29 @@ public class PasswordAnalysis implements Initializable {
 
 				new IllegalSequenceRule(EnglishSequenceData.Numerical, 3, true),
 
-				new IllegalSequenceRule(EnglishSequenceData.USQwerty, 3, true)
-		));
+				new IllegalSequenceRule(EnglishSequenceData.USQwerty, 3, true)));
 
-	}
-
-	@FXML
-	private void pbCheck(ActionEvent event) {
-		score.setPasswordscore(score.getPasswordscore() + 0.1);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		errorMap = new HashMap<>();
-		labelValidityMap = new HashMap<>();
+		if (Password != null)
+			PasswordInput.setText(Password);
+		initializeScreen();
 		addTextLimiter(PasswordInput, 14);
 		score = new PasswordScore();
-		addRules();
 		score.setPasswordscore(0);
 		score.numberProperty().addListener((v, oldValue, newValue) -> {
 		});
 		Progress.progressProperty().bind(score.numberProperty());
+	}
+
+	public void initializeScreen() {
+		// TODO Auto-generated method stub
+		errorMap = new HashMap<>();
+		labelValidityMap = new HashMap<>();
+		addRules();
 	}
 
 	public static void addTextLimiter(final TextField tf, final int maxLength) {
@@ -249,9 +316,17 @@ public class PasswordAnalysis implements Initializable {
 		Parent root = (Parent) fxmlLoader.load();
 		HomeScreen controller = fxmlLoader.<HomeScreen> getController();
 		controller.setUser(account);
-		stage.setTitle("Hello World");
-		stage.setScene(new Scene(root, 700, 575));
+		stage.setTitle("Home Screen | Eldian");
+		stage.setScene(new Scene(root, 1000, 575));
 		stage.show();
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
 	}
 
 	public void setUser(Account account) {

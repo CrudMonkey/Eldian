@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/passay-1.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.11.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="lib/testfx-core-4.0.0-20150226.214553-8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
